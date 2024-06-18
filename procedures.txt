@@ -1,0 +1,109 @@
+read
+
+procedure prod1 (real radius, real height)
+{
+   R := radius;
+   h_2 := 0.5*height;
+   g3;
+}
+
+procedure prod5 (real radius, real height, integer collapse)
+{
+   R := radius;
+   h_2 := 0.5*height;
+   g 3;
+   r;
+   u;
+   do {oldarea := total_area; g 50 } while (oldarea - total_area > 1e-5);
+
+   if (collapse == 1) then {t 0.05; o; g 10};
+
+   for (ind := 1 ; ind < 3 ; ind++)
+   	r;
+	do {oldarea := total_area; g 50 } while (oldarea - total_area > 1e-5);
+   
+}
+
+procedure prod6(real radius, real height, integer collapse)
+{
+   R := radius;
+   h_2 := 0.5*height;
+   tol := ((1e-5)/8)*radius*radius;
+   g 3;
+   r;
+   u;
+   do {oldarea := total_area; g 50 } while (oldarea - total_area > tol);
+
+   if (collapse == 1) then {t 0.05; o; g 10};
+
+   for (ind := 1 ; ind < 3 ; ind++)
+   	r;
+	do {oldarea := total_area; g 50 } while (oldarea - total_area > tol);
+   
+}
+
+procedure prod7(real radius)
+{
+	replace_load datafilename;
+	
+	goldschmidt_area := 2*3.14159*radius*radius;
+	height := 1.2965*radius;
+
+	while 1 do {
+	
+		prod6(radius,height,1);
+		if (total_area < 1.1*goldschmidt_area) then {
+			height := height-0.001; replace_load datafilename} else {
+					printf "###Maximum height for a stable catenoid of radius %.3f: \n", radius;
+					printf "%.3f \n", (height+0.001); BREAK};
+		
+		}
+
+}
+
+procedure prod8(real radius)
+{
+	replace_load datafilename;
+	
+	goldschmidt_area := 2*3.14159*radius*radius;
+	height := 1.2965*radius;
+	increment := 0.000125*radius;
+
+	while 1 do {
+	
+		prod6(radius,height,1);
+		if (total_area < 1.1*goldschmidt_area) then {
+			height := height-increment; replace_load datafilename} else {
+					printf "###Maximum height for a stable catenoid of radius %.3f: \n", radius;
+					printf "%.3f \n", (height+0.001); BREAK};
+		
+		}
+
+}
+
+//
+//
+// prod1 (radius, height)
+// Initializes a catenoid of the given radius and height
+//
+// prod5(radius, height, show collapse)    (show collapse = 1 for yes, 0 for no)
+// Evolves a catenoid of given radius and height 
+//
+// prod6(radius, height, show collapse)
+// Same as prod5 but with lower tolerance, so it evolves faster
+//
+// prod7(radius)
+// Finds the maximum height of a stable catenoid with the given radius 
+//
+// prod8(radius)
+// Same as prod7 but with larger increments at each iteration making it faster
+//
+//
+// "r,r,d" view angle for figures
+//
+// "P 3" to save figures
+//
+// Procedures can also be included directly in the data file by putting the
+// command "read" at the bottom and then defining the procedures
+//
+//
